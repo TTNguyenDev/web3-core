@@ -1,21 +1,16 @@
-import {
-  PRICE_FRACTION_DIGITS,
-  RATIO_AMOUT_TO_CREATE_TASK,
-} from '../constants';
+export * from './cache';
 
-export * from './auth.utils';
-export * from './modal.utils';
+export function debounce(func: any, timeout = 300) {
+  let timer: any;
+  return (...args: any) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      // @ts-ignore
+      func.apply(this, args);
+    }, timeout);
+  };
+}
 
-export const calcAmountToCreateTask = ({
-  price,
-  max_participants,
-}: {
-  price: string;
-  max_participants: number;
-}) => {
-  return Number(
-    (Number(price) * max_participants * RATIO_AMOUT_TO_CREATE_TASK).toFixed(
-      PRICE_FRACTION_DIGITS
-    )
-  );
-};
+export function parseToUsername(accountId: string) {
+  return accountId.replace('.testnet', '').replace('.near', '');
+}
