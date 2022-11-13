@@ -1,3 +1,4 @@
+"use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -45,10 +46,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { BN } from "bn.js";
-import { connect, keyStores, transactions, WalletConnection, Connection, } from "near-api-js";
-import { NearTransactionConfig } from "../../constants";
-WalletConnection.prototype._completeSignInWithAccessKey = function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NearConnector = void 0;
+var bn_js_1 = require("bn.js");
+var near_api_js_1 = require("near-api-js");
+var constants_1 = require("../../constants");
+near_api_js_1.WalletConnection.prototype._completeSignInWithAccessKey = function () {
     return __awaiter(this, void 0, void 0, function () {
         var currentUrl, contractId, publicKey, allKeys, accountId, authData;
         return __generator(this, function (_a) {
@@ -123,13 +126,13 @@ var NearConnector = /** @class */ (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        keyStore = new keyStores.BrowserLocalStorageKeyStore(window.localStorage, this.config.contractId);
+                        keyStore = new near_api_js_1.keyStores.BrowserLocalStorageKeyStore(window.localStorage, this.config.contractId);
                         _a = this;
-                        return [4 /*yield*/, connect(__assign(__assign({}, this._config), { keyStore: keyStore }))];
+                        return [4 /*yield*/, (0, near_api_js_1.connect)(__assign(__assign({}, this._config), { keyStore: keyStore }))];
                     case 1:
                         _a._conn = _b.sent();
-                        this._wallet = new WalletConnection(this.conn, this.config.contractId);
-                        this._archivalConnection = Connection.fromConfig({
+                        this._wallet = new near_api_js_1.WalletConnection(this.conn, this.config.contractId);
+                        this._archivalConnection = near_api_js_1.Connection.fromConfig({
                             networkId: this.config.networkId,
                             provider: {
                                 type: "JsonRpcProvider",
@@ -262,8 +265,8 @@ var NearConnector = /** @class */ (function () {
             return __generator(this, function (_b) {
                 walletMeta = payload.walletMeta, walletCallbackUrl = payload.walletCallbackUrl, returnError = payload.returnError;
                 actions = payload.actions.map(function (_a) {
-                    var methodName = _a.methodName, body = _a.args, _b = _a.gas, gas = _b === void 0 ? NearTransactionConfig.defaultGas : _b, _c = _a.deposit, deposit = _c === void 0 ? "0" : _c;
-                    return transactions.functionCall(methodName, body, new BN(gas), new BN(deposit));
+                    var methodName = _a.methodName, body = _a.args, _b = _a.gas, gas = _b === void 0 ? constants_1.NearTransactionConfig.defaultGas : _b, _c = _a.deposit, deposit = _c === void 0 ? "0" : _c;
+                    return near_api_js_1.transactions.functionCall(methodName, body, new bn_js_1.BN(gas), new bn_js_1.BN(deposit));
                 });
                 // @ts-ignore
                 return [2 /*return*/, this.wallet.account().signAndSendTransaction({
@@ -278,4 +281,4 @@ var NearConnector = /** @class */ (function () {
     };
     return NearConnector;
 }());
-export { NearConnector };
+exports.NearConnector = NearConnector;

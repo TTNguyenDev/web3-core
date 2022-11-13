@@ -1,3 +1,4 @@
+"use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -45,8 +46,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.cacheDataList = void 0;
 var DEFAULT_LIMIT_PER_CACHE_HIT = 5000;
-export var cacheDataList = function (_a) {
+var cacheDataList = function (_a) {
     var dbClient = _a.dbClient, _b = _a.limitPerCacheHit, limitPerCacheHit = _b === void 0 ? DEFAULT_LIMIT_PER_CACHE_HIT : _b, _c = _a.firstRecordQuery, firstRecordQuery = _c === void 0 ? {
         selector: {
             id: { $exists: true },
@@ -104,3 +107,4 @@ export var cacheDataList = function (_a) {
         });
     });
 };
+exports.cacheDataList = cacheDataList;
