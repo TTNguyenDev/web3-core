@@ -1,4 +1,4 @@
-import { NearConnector } from "@web3-core/blockchain";
+import { NearConnector } from "../blockchain";
 
 export type Container = {
   bcConnector: NearConnector;

@@ -38,7 +38,7 @@ import React from "react";
 import { useHookstate } from "@hookstate/core";
 import { BlockchainState } from "../store";
 import { parseToUsername } from "../utils";
-import { getContainer } from "@web3-core/container";
+import { getContainer } from "../container";
 export var useBlockchain = function (_a) {
     var _b = _a === void 0 ? {} : _a, connector = _b.connector, state = _b.state;
     var bcConnector = connector !== null && connector !== void 0 ? connector : getContainer().bcConnector;

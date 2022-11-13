@@ -15,11 +15,7 @@
     "jsx": "preserve",
     "incremental": true,
     "declaration": true,
-    "importHelpers": false,
-    "baseUrl": "./",
-    "paths": {
-      "@web3-core/*": ["src/*"]
-    }
+    "importHelpers": false
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

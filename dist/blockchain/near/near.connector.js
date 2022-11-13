@@ -45,9 +45,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { NearTransactionConfig } from '@web3-core/constants';
-import { BN } from 'bn.js';
-import { connect, keyStores, transactions, WalletConnection, Connection, } from 'near-api-js';
+import { BN } from "bn.js";
+import { connect, keyStores, transactions, WalletConnection, Connection, } from "near-api-js";
+import { NearTransactionConfig } from "../../constants";
 WalletConnection.prototype._completeSignInWithAccessKey = function () {
     return __awaiter(this, void 0, void 0, function () {
         var currentUrl, contractId, publicKey, allKeys, accountId, authData;
@@ -55,12 +55,12 @@ WalletConnection.prototype._completeSignInWithAccessKey = function () {
             switch (_a.label) {
                 case 0:
                     currentUrl = new URL(window.location.href);
-                    contractId = currentUrl.searchParams.get('contract_id') || '';
+                    contractId = currentUrl.searchParams.get("contract_id") || "";
                     if (contractId !== this._near.config.contractId)
                         return [2 /*return*/];
-                    publicKey = currentUrl.searchParams.get('public_key') || '';
-                    allKeys = (currentUrl.searchParams.get('all_keys') || '').split(',');
-                    accountId = currentUrl.searchParams.get('account_id') || '';
+                    publicKey = currentUrl.searchParams.get("public_key") || "";
+                    allKeys = (currentUrl.searchParams.get("all_keys") || "").split(",");
+                    accountId = currentUrl.searchParams.get("account_id") || "";
                     if (!accountId) return [3 /*break*/, 3];
                     authData = {
                         accountId: accountId,
@@ -76,11 +76,11 @@ WalletConnection.prototype._completeSignInWithAccessKey = function () {
                     this._authData = authData;
                     _a.label = 3;
                 case 3:
-                    currentUrl.searchParams.delete('public_key');
-                    currentUrl.searchParams.delete('all_keys');
-                    currentUrl.searchParams.delete('account_id');
-                    currentUrl.searchParams.delete('meta');
-                    currentUrl.searchParams.delete('transactionHashes');
+                    currentUrl.searchParams.delete("public_key");
+                    currentUrl.searchParams.delete("all_keys");
+                    currentUrl.searchParams.delete("account_id");
+                    currentUrl.searchParams.delete("meta");
+                    currentUrl.searchParams.delete("transactionHashes");
                     window.history.replaceState({}, document.title, currentUrl.toString());
                     return [2 /*return*/];
             }
@@ -132,12 +132,12 @@ var NearConnector = /** @class */ (function () {
                         this._archivalConnection = Connection.fromConfig({
                             networkId: this.config.networkId,
                             provider: {
-                                type: 'JsonRpcProvider',
+                                type: "JsonRpcProvider",
                                 args: {
                                     url: this.config.nodeUrl,
                                 },
                             },
-                            signer: { type: 'InMemorySigner', keyStore: keyStore },
+                            signer: { type: "InMemorySigner", keyStore: keyStore },
                         });
                         return [2 /*return*/, this.conn];
                 }
@@ -181,7 +181,7 @@ var NearConnector = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.wallet.account().connection.provider.block({
-                            finality: 'optimistic',
+                            finality: "optimistic",
                         })];
                     case 1:
                         block = _a.sent();
@@ -211,12 +211,12 @@ var NearConnector = /** @class */ (function () {
                             ? this.archivalConnection
                             : this.wallet.account().connection;
                         return [4 /*yield*/, connection.provider.query({
-                                request_type: 'call_function',
+                                request_type: "call_function",
                                 block_id: blockId,
                                 // @ts-ignore
                                 account_id: process.env.NEXT_PUBLIC_NEAR_CONTRACT_NAME,
                                 method_name: methodName,
-                                args_base64: new Buffer(JSON.stringify(args), 'utf8').toString('base64'),
+                                args_base64: new Buffer(JSON.stringify(args), "utf8").toString("base64"),
                             })];
                     case 1:
                         res = _a.sent();
@@ -262,7 +262,7 @@ var NearConnector = /** @class */ (function () {
             return __generator(this, function (_b) {
                 walletMeta = payload.walletMeta, walletCallbackUrl = payload.walletCallbackUrl, returnError = payload.returnError;
                 actions = payload.actions.map(function (_a) {
-                    var methodName = _a.methodName, body = _a.args, _b = _a.gas, gas = _b === void 0 ? NearTransactionConfig.defaultGas : _b, _c = _a.deposit, deposit = _c === void 0 ? '0' : _c;
+                    var methodName = _a.methodName, body = _a.args, _b = _a.gas, gas = _b === void 0 ? NearTransactionConfig.defaultGas : _b, _c = _a.deposit, deposit = _c === void 0 ? "0" : _c;
                     return transactions.functionCall(methodName, body, new BN(gas), new BN(deposit));
                 });
                 // @ts-ignore

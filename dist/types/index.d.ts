@@ -1,5 +1,5 @@
 /// <reference types="pouchdb-find" />
-import { NearConnector } from "@web3-core/blockchain";
+import { NearConnector } from "../blockchain";
 export declare type Container = {
     bcConnector: NearConnector;
 };

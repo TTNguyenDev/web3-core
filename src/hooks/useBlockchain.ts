@@ -3,7 +3,7 @@ import { State, useHookstate } from "@hookstate/core";
 import { BlockchainState } from "../store";
 import { parseToUsername } from "../utils";
 import { NearConnector } from "../blockchain/near";
-import { getContainer } from "@web3-core/container";
+import { getContainer } from "../container";
 
 export const useBlockchain = ({
   connector,

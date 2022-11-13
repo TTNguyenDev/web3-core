@@ -1,5 +1,4 @@
-import { NearTransactionConfig } from '@web3-core/constants';
-import { BN } from 'bn.js';
+import { BN } from "bn.js";
 import {
   connect,
   keyStores,
@@ -7,23 +6,24 @@ import {
   transactions,
   WalletConnection,
   Connection,
-} from 'near-api-js';
+} from "near-api-js";
 import {
   ChangeFunctionCallOptions,
   ViewFunctionCallOptions,
-} from 'near-api-js/lib/account';
-import { NearConfig } from 'near-api-js/lib/near';
-import { TransactionAction } from '../../types';
-import { IBlockchainConnector } from '../blockchain.connector';
+} from "near-api-js/lib/account";
+import { NearConfig } from "near-api-js/lib/near";
+import { NearTransactionConfig } from "../../constants";
+import { TransactionAction } from "../../types";
+import { IBlockchainConnector } from "../blockchain.connector";
 
 WalletConnection.prototype._completeSignInWithAccessKey = async function () {
   const currentUrl = new URL(window.location.href);
-  const contractId = currentUrl.searchParams.get('contract_id') || '';
+  const contractId = currentUrl.searchParams.get("contract_id") || "";
   if (contractId !== this._near.config.contractId) return;
 
-  const publicKey = currentUrl.searchParams.get('public_key') || '';
-  const allKeys = (currentUrl.searchParams.get('all_keys') || '').split(',');
-  const accountId = currentUrl.searchParams.get('account_id') || '';
+  const publicKey = currentUrl.searchParams.get("public_key") || "";
+  const allKeys = (currentUrl.searchParams.get("all_keys") || "").split(",");
+  const accountId = currentUrl.searchParams.get("account_id") || "";
   // TODO: Handle errors during login
   if (accountId) {
     const authData = {
@@ -36,11 +36,11 @@ WalletConnection.prototype._completeSignInWithAccessKey = async function () {
     }
     this._authData = authData;
   }
-  currentUrl.searchParams.delete('public_key');
-  currentUrl.searchParams.delete('all_keys');
-  currentUrl.searchParams.delete('account_id');
-  currentUrl.searchParams.delete('meta');
-  currentUrl.searchParams.delete('transactionHashes');
+  currentUrl.searchParams.delete("public_key");
+  currentUrl.searchParams.delete("all_keys");
+  currentUrl.searchParams.delete("account_id");
+  currentUrl.searchParams.delete("meta");
+  currentUrl.searchParams.delete("transactionHashes");
   window.history.replaceState({}, document.title, currentUrl.toString());
 };
 
@@ -89,12 +89,12 @@ export class NearConnector implements IBlockchainConnector<Near> {
     this._archivalConnection = Connection.fromConfig({
       networkId: this.config.networkId,
       provider: {
-        type: 'JsonRpcProvider',
+        type: "JsonRpcProvider",
         args: {
           url: this.config.nodeUrl,
         },
       },
-      signer: { type: 'InMemorySigner', keyStore },
+      signer: { type: "InMemorySigner", keyStore },
     });
     return this.conn;
   }
@@ -120,7 +120,7 @@ export class NearConnector implements IBlockchainConnector<Near> {
 
   public async updateLastBlockHeight() {
     const block = await this.wallet.account().connection.provider.block({
-      finality: 'optimistic',
+      finality: "optimistic",
     });
 
     this._lastBlockHeight = block.header.height;
@@ -145,12 +145,12 @@ export class NearConnector implements IBlockchainConnector<Near> {
         : this.wallet.account().connection;
 
     const res: any = await connection.provider.query({
-      request_type: 'call_function',
+      request_type: "call_function",
       block_id: blockId,
       // @ts-ignore
       account_id: process.env.NEXT_PUBLIC_NEAR_CONTRACT_NAME,
       method_name: methodName,
-      args_base64: new Buffer(JSON.stringify(args), 'utf8').toString('base64'),
+      args_base64: new Buffer(JSON.stringify(args), "utf8").toString("base64"),
     });
 
     return (
@@ -161,7 +161,7 @@ export class NearConnector implements IBlockchainConnector<Near> {
   }
 
   async callViewMethod(
-    payload: Omit<ViewFunctionCallOptions, 'contractId'> & {
+    payload: Omit<ViewFunctionCallOptions, "contractId"> & {
       contractId?: string;
     }
   ) {
@@ -176,7 +176,7 @@ export class NearConnector implements IBlockchainConnector<Near> {
   }
 
   async callChangeMethod(
-    payload: Omit<ChangeFunctionCallOptions, 'contractId'> & {
+    payload: Omit<ChangeFunctionCallOptions, "contractId"> & {
       contractId?: string;
     }
   ) {
@@ -203,7 +203,7 @@ export class NearConnector implements IBlockchainConnector<Near> {
         methodName,
         args: body,
         gas = NearTransactionConfig.defaultGas,
-        deposit = '0',
+        deposit = "0",
       }) =>
         transactions.functionCall(
           methodName,
